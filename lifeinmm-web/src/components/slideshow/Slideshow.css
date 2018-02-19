@@ -43,7 +43,7 @@ body {
 }
 
 .bgimg {
-	background-image: url('../gallery/images/1.jpg');
+	background-image: url('/images/1.jpg');
 }
 
 @keyframes slide-fade {
