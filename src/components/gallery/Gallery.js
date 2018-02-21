@@ -2,30 +2,33 @@ import React from 'react'
 import Slideshow from '../slideshow';
 
 const items = [
-    '/images/1.jpg',
-    '/images/2.jpg',
-    '/images/3.jpg',
-    '/images/4.jpg',
+   '/images/_MG_1720.jpg'
 ];
 
 export default class Gallery extends React.Component {
     render() {
-        // var finder = require('findit')(process.argv[2] || '.');
-        // var path = require('path');
-        //
-        // finder.on('directory', function (dir, stat, stop) {
-        //     var base = path.basename(dir);
-        //     if (base === '.git' || base === 'node_modules') stop()
-        //     else console.log(dir + '/')
-        // });
-        //
-        // finder.on('file', function (file, stat) {
-        //     console.log(file);
-        // });
-        //
-        // finder.on('link', function (link, stat) {
-        //     console.log(link);
-        // });
+        var client = new XMLHttpRequest();
+        client.open('GET', 'list.txt');
+        client.onloadend = function() {
+            // alert(client.responseText);
+            var lines = client.responseText.split('\n');
+            for(var line = 0; line < lines.length; line++){
+                if (lines[line].length !== 0)
+                items.push(lines[line]);
+            }
+            return <Slideshow
+                showIndex={false}
+                showArrows={false}
+                autoplay={true}
+                defaultIndex={1}
+                effect={'fade'}
+                slideInterval={4000}
+                slides={items}
+                height={'100%'}
+                width={'100%'}>
+            </Slideshow>;
+        }
+        client.send();
 
         return <Slideshow
             showIndex={false}
@@ -38,5 +41,6 @@ export default class Gallery extends React.Component {
             height={'100%'}
             width={'100%'}>
         </Slideshow>;
+
     }
 }

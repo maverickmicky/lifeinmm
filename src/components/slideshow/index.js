@@ -51,9 +51,11 @@ class Slideshow extends Component {
 	}
 
 	autoSlideshow () {
-		this.setState({
-			currentSlide: (this.state.currentSlide + 1) % this.state.slides.length
-		});
+        if (this.state.slides !== undefined) {
+            this.setState({
+                currentSlide: (this.state.currentSlide + 1) % this.state.slides.length
+            });
+        }
 	}
 
 	restartSlideshow () {
@@ -102,15 +104,19 @@ class Slideshow extends Component {
 		let slideEffect = effect === undefined ? 'fade' : effect;
 		let slideShowSlides;
 
-		if(!this.props.children){
-			slideShowSlides = slides.map((slide, i) => {
-				return <li className = {`slide ${effect} ${(this.state.currentSlide === i ? "showing-"  + slideEffect  : "")}`} key={i} style={{backgroundImage: `url(${slide})`}}></li>
-			});
-		} else {
-			slideShowSlides = slides.map((slide, i) => {
-				return <li className = {`slide ${effect} ${(this.state.currentSlide === i ? "showing-"  + slideEffect  : "")}`} key={i}>{slide}</li>
-			});
-		}
+        if (slides !== undefined) {
+            if (!this.props.children) {
+                slideShowSlides = slides.map((slide, i) => {
+                    return <li className={`slide ${effect} ${(this.state.currentSlide === i ? "showing-" + slideEffect : "")}`}
+                               key={i} style={{backgroundImage: `url(${slide})`}}></li>
+                });
+            } else {
+                slideShowSlides = slides.map((slide, i) => {
+                    return <li className={`slide ${effect} ${(this.state.currentSlide === i ? "showing-" + slideEffect : "")}`}
+                               key={i}>{slide}</li>
+                });
+            }
+        }
 
 		return (
 
